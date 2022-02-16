@@ -6,8 +6,12 @@ const app = Vue.createApp({
         }
     },
     methods: {
-      updateCart(id) {
+      addToCart(id) {
         this.cart.push(id)
+      },
+      removeFromCart(id) {
+        const index = this.cart.findIndex(productId => productId == id)
+        this.cart.splice(index, 1)
       }
     }
 })
