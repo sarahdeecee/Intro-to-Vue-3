@@ -5,7 +5,7 @@ app.component('product-display', {
       required: true
     }
   },
-  template:
+  template: 
   /*html*/
   `<div class="product-display">
     <div class="product-container">
@@ -18,8 +18,11 @@ app.component('product-display', {
         <p v-if="inStock">In Stock</p>
         <p v-else>Out of Stock</p>
 
-        <p>Shipping: {{shipping}}</p>
-        <product-details :details="details"></product-details>
+        <p>Shipping: {{ shipping }}</p>
+
+        <ul>
+          <li v-for="detail in details">{{ detail }}</li>
+        </ul>
 
         <div 
           v-for="(variant, index) in variants" 
@@ -29,7 +32,18 @@ app.component('product-display', {
           :style="{ backgroundColor: variant.color }">
         </div>
         
-        <button class="button" :class="{ disabledButton: !inStock }" :disabled="!inStock" v-on:click="addToCart">Add to Cart</button>
+        <button 
+          class="button" 
+          :class="{ disabledButton: !inStock }" 
+          :disabled="!inStock" 
+          v-on:click="addToCart">
+          Add to Cart
+        </button>
+        <button
+          class="button"
+          @click="removeFromCart"
+        >Remove Item
+        </button>
       </div>
     </div>
   </div>`,
@@ -44,30 +58,33 @@ app.component('product-display', {
           { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0 },
         ]
     }
-},
-methods: {
-    addToCart() {
-        this.cart += 1
-    },
-    updateVariant(index) {
+  },
+  methods: {
+      addToCart() {
+        this.$emit('add-to-cart', this.variants[this.selectedVariant].id)
+      },
+      removeFromCart() {
+        this.$emit('remove-from-cart', this.variants[this.selectedVariant].id)
+      },
+      updateVariant(index) {
         this.selectedVariant = index
-    }
-},
-computed: {
-    title() {
-        return this.brand + ' ' + this.product
-    },
-    image() {
-        return this.variants[this.selectedVariant].image
-    },
-    inStock() {
-        return this.variants[this.selectedVariant].image
-    },
-    shipping() {
-      if (this.premium) {
-        return 'Free'
       }
-      return 2.99
-    }
-}
+  },
+  computed: {
+      title() {
+          return this.brand + ' ' + this.product
+      },
+      image() {
+          return this.variants[this.selectedVariant].image
+      },
+      inStock() {
+          return this.variants[this.selectedVariant].quantity
+      },
+      shipping() {
+        if (this.premium) {
+          return 'Free'
+        }
+        return 2.99
+      }
+  }
 })
