@@ -6,15 +6,13 @@
     <!-- Import Styles -->
     <link rel="stylesheet" href="./assets/styles.css" />
     <!-- Import Vue.js -->
-<<<<<<< HEAD
-    <script src="https://unpkg.com/vue@3"></script>
-=======
     <script src="https://unpkg.com/vue@3.0.11/dist/vue.global.js"></script>
->>>>>>> L5-start
   </head>
   <body>
     <div id="app">
       <div class="nav-bar"></div>
+
+      <div class="cart">Cart({{ cart }})</div>
       
       <div class="product-display">
         <div class="product-container">
@@ -23,21 +21,14 @@
           </div>
           <div class="product-info">
             <h1>{{ product }}</h1>
-<<<<<<< HEAD
-            <p v-show="onSale">On Sale</p>
-            <p v-if="inventory > 10">In Stock</p>
-            <p v-else-if="inventory <= 10 && inventory > 0">Only a few left!</p>
-            <p v-else>Out of Stock</p>
-=======
             <p v-if="inStock">In Stock</p>
             <p v-else>Out of Stock</p>
             <ul>
-              <li v-for="detail in details">{{detail}}</li>
+              <li v-for="detail in details">{{ detail }}</li>
             </ul>
-            <div v-for="variant in variants" :key="variant.id">{{variant.color}}</div>
-            <h3>Sizes available</h3>
-            <div v-for="size in sizes">{{size}}</div>
->>>>>>> L5-start
+            <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)">{{ variant.color }}</div>
+            <button class="button" @click="addToCart">Add to Cart</button>
+            <button class="button" @click="subtractFromCart">Delete From Cart</button>
           </div>
         </div>
       </div>
